@@ -28,10 +28,15 @@ import {
 // ahi se usa HashRouter. En el sitio desplegado se mantiene BrowserRouter.
 const Router = import.meta.env.VITE_HASH_ROUTER === '1' ? HashRouter : BrowserRouter
 
+// GitHub Pages sirve el sitio bajo /<repo>/, asi que el router necesita esa
+// base para que /buscar resuelva a /tumomo-v2/buscar. En Vercel y en local
+// la base es "/" y esto queda en cadena vacia.
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
+
 export default function App() {
   return (
     <StoreProvider>
-      <Router>
+      <Router basename={BASE || undefined}>
         <Routes>
           {/* --- Consumidor --- */}
           <Route element={<PublicLayout />}>
