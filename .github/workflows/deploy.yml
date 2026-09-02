@@ -33,9 +33,6 @@ jobs:
         env:
           VITE_BASE: /tumomo-v2/
 
-      # Pages no reescribe rutas: una copia de index.html como 404 hace que
-      # /buscar y /pro/crm funcionen al entrar directo o recargar.
-      - run: cp dist/index.html dist/404.html
 
       - uses: actions/upload-pages-artifact@v3
         with:

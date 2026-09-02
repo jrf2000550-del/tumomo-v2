@@ -13,6 +13,20 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Restaura la ruta que 404.html guardo antes de redirigir (ver public/404.html).
+      // Debe correr antes de que monte React, para que el router lea la URL correcta.
+      (function () {
+        try {
+          var destino = sessionStorage.getItem('momo:redirigir')
+          if (destino) {
+            sessionStorage.removeItem('momo:redirigir')
+            var base = document.baseURI.replace(window.location.origin, '').replace(/\/$/, '')
+            history.replaceState(null, '', base + destino)
+          }
+        } catch (e) { /* sessionStorage bloqueado: se sirve la home */ }
+      })()
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>TU MOMO Real Estate</title>
+    <script>
+      // GitHub Pages no reescribe rutas: cualquier URL profunda entra por aqui
+      // con estado 404. Se guarda la ruta pedida y se redirige a la raiz, donde
+      // index.html la restaura antes de montar React.
+      // Asi /buscar o /pro/crm funcionan al entrar directo o al recargar.
+      (function () {
+        var base = '/tumomo-v2'
+        var l = window.location
+        var ruta = l.pathname.indexOf(base) === 0 ? l.pathname.slice(base.length) : l.pathname
+        sessionStorage.setItem('momo:redirigir', ruta + l.search + l.hash)
+        l.replace(base + '/')
+      })()
+    </script>
+  </head>
+  <body></body>
+</html>
