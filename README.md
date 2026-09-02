@@ -3,6 +3,11 @@
 Prototipo navegable de la evolución de TuMomo: de portal inmobiliario a
 ecosistema digital del Real Estate.
 
+## Links
+
+- **Repositorio:** https://github.com/jrf2000550-del/tumomo-v2 (privado)
+- **Demo desplegada:** ver sección "Publicar en Vercel" más abajo
+
 ## Cómo levantarlo
 
 ```bash
@@ -77,20 +82,6 @@ Tipografía: Archivo (titulares) + Inter (texto).
 
 ---
 
-## Link de la demo (para presentar)
-
-**https://claude.ai/code/artifact/8dae9e00-6814-4a36-93ca-8d8389010840**
-
-Es privado por defecto. Para que otros lo abran, usá el menú de compartir de la
-página. Se navega con rutas tipo `#/buscar`, `#/pro`, etc.
-
-Para regenerar el paquete después de un cambio:
-
-```bash
-VITE_HASH_ROUTER=1 npm run build
-node empaquetar.mjs        # genera tumomo-v2-demo.html
-node verificar-paquete.mjs # comprueba que el paquete abre y navega
-```
 
 ## Identidad de marca
 
@@ -136,3 +127,33 @@ Para comprobar que ninguna imagen quedó rota o externa:
 ```bash
 node verificar-imagenes.mjs   # revisa 200+ imágenes en 18 pantallas
 ```
+
+## Publicar en Vercel
+
+El proyecto ya trae `vercel.json` con la reescritura que necesita una SPA
+(todas las rutas sirven `index.html`, para que `/buscar` o `/pro/crm` funcionen
+al recargar la página).
+
+**Opción recomendada — conectar el repo (se actualiza solo):**
+
+1. Entrar a https://vercel.com/new
+2. Importar `jrf2000550-del/tumomo-v2`
+3. Vercel detecta Vite automáticamente: no hay que tocar configuración
+4. Deploy
+
+Desde ahí, cada `git push` republica el sitio solo.
+
+**Opción rápida — desde la terminal:**
+
+```bash
+npx vercel login     # una sola vez
+npx vercel --prod
+```
+
+Para comprobar que el sitio desplegado funciona de verdad:
+
+```bash
+node verificar-online.mjs https://tu-dominio.vercel.app
+```
+
+Revisa 9 rutas, cuenta las imágenes y reporta errores de JavaScript.
