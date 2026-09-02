@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Tailwind v4 solo genera utilidades para los colores declarados aqui.
+     Sin estos dos, `text-white` / `bg-white` no existen y el texto blanco
+     sobre fondos oscuros queda negro. */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* --- Sistema de marca TuMomo ---------------------------------------
+     Jerarquia definida por el cliente:
+       1. Blanco  — fondo dominante de toda la interfaz
+       2. Negro   — texto, superficies oscuras, precios
+       3. Amarillo — secundario: fondos de botones y destacados, SIEMPRE con
+                     texto negro encima (el amarillo no admite texto blanco)
+       4. Rojo    — cuarto lugar: solo alertas y acentos puntuales
+     El azul se conserva unicamente para enlaces y estados de foco, donde el
+     amarillo no da contraste suficiente sobre blanco. */
+  --color-momo-yellow: #ffc700;        /* secundario: botones y destacados */
+  --color-momo-yellow-dark: #e6b300;   /* hover del secundario */
+  --color-momo-yellow-soft: #fff8e0;   /* fondos suaves */
+  --color-momo-yellow-tint: #fffdf5;   /* fondos muy suaves */
+
+  --color-momo-black: #111111;         /* texto y superficies oscuras */
+  --color-momo-black-soft: #2a2a2a;
+
+  --color-momo-red: #e02424;           /* cuarto lugar: alertas y acentos */
+  --color-momo-red-soft: #fdeaea;
+
+  --color-momo-blue: #1358d8;          /* enlaces y foco, uso funcional */
+  --color-momo-blue-soft: #eef4ff;
+
+  --color-momo-green: #00915f;         /* verificado */
+  --color-momo-green-soft: #e6f6ef;
+
+  /* Neutros calidos, para acompañar al amarillo sin enfriar la paleta */
+  --color-momo-ink: #1f1f1f;
+  --color-momo-muted: #6b6b66;
+  --color-momo-line: #e8e6e1;
+  --color-momo-surface: #faf9f7;
+
+  /* Alias para no romper las clases ya escritas en las 22 pantallas */
+  --color-momo-navy: #111111;
+  --color-momo-navy-soft: #2a2a2a;
+  --color-momo-amber: #ffc700;
+  --color-momo-amber-soft: #fff8e0;
+  --color-momo-blue-dark: #0f47ae;
+  --color-momo-blue-tint: #fffdf5;
+
+  --font-display: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  background: #fff;
+  font-family: var(--font-sans);
+  /* Acabado tipografico: evita el aspecto "pesado" del texto en pantallas Windows */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #fff;
+  /* El color base va en body, no en :root: en :root gana por orden de cascada
+     sobre las utilidades de color de Tailwind y pinta texto negro sobre fondos negros. */
+  color: var(--color-momo-navy);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+::selection { background: var(--color-momo-yellow); color: var(--color-momo-black); }
+
+:focus-visible {
+  outline: 2px solid var(--color-momo-black);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+/* Va en @layer base para que las utilidades de Tailwind (text-white, etc.)
+   ganen por capa. Fuera de la capa, esta regla se emite despues de las
+   utilidades y anula el color de TODOS los enlaces. */
+@layer base {
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font: inherit; }
+}
+
+/* Titulares con el peso condensado de la V1 */
+.font-display {
+  font-family: var(--font-display);
+  font-stretch: 95%;
+  letter-spacing: -0.02em;
+}
+
+/* Fondo de cabecera: blanco dominante con un halo amarillo y malla muy fina.
+   El blanco manda; el amarillo solo insinua la marca. */
+.momo-stripes {
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(ellipse 85% 75% at 78% -12%, rgba(255, 199, 0, 0.30), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 8% 100%, rgba(255, 199, 0, 0.13), transparent 62%),
+    linear-gradient(rgba(17, 17, 17, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, 36px 36px, 36px 36px;
+}
+
+/* Separador sutil entre el hero y el resto */
+.momo-fade-bottom::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 90px;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.55));
+  pointer-events: none;
+}
+
+.momo-grid-dots {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Subrayado de titular: trazo ambar bajo la linea base */
+.momo-underline {
+  background: linear-gradient(transparent 64%, var(--color-momo-yellow) 64%, var(--color-momo-yellow) 94%, transparent 94%);
+}
+
+/* Sombras teñidas de navy: sobre fondo blanco leen mas limpias que el gris neutro */
+.shadow-card { box-shadow: 0 1px 2px rgba(17,17,17,.05), 0 14px 34px -20px rgba(17,17,17,.22); }
+.shadow-pop  { box-shadow: 0 20px 60px -26px rgba(17,17,17,.30); }
+.shadow-lift { box-shadow: 0 2px 4px rgba(17,17,17,.05), 0 22px 50px -24px rgba(17,17,17,.28); }
+
+/* Ticker de insights (V1) */
+@keyframes momo-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.momo-ticker { animation: momo-ticker 60s linear infinite; }
+.momo-ticker-host:hover .momo-ticker { animation-play-state: paused; }
+
+@keyframes momo-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: momo-fade-up .5s both; }
+
+@keyframes momo-pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(255,199,0,.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(255,199,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,199,0,0); }
+}
+.pulse-ring { animation: momo-pulse-ring 2s infinite; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-momo-surface); }
+::-webkit-scrollbar-thumb { background: #d6d3cc; border-radius: 999px; border: 2px solid var(--color-momo-surface); }
+::-webkit-scrollbar-thumb:hover { background: #b8b4ab; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
