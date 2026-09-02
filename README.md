@@ -6,7 +6,7 @@ ecosistema digital del Real Estate.
 ## Links
 
 - **Repositorio:** https://github.com/jrf2000550-del/tumomo-v2 (privado)
-- **Demo desplegada:** ver sección "Publicar en Vercel" más abajo
+- **Demo en vivo:** https://jrf2000550-del.github.io/tumomo-v2/ (pública, sin login)
 
 ## Cómo levantarlo
 
@@ -157,3 +157,31 @@ node verificar-online.mjs https://tu-dominio.vercel.app
 ```
 
 Revisa 9 rutas, cuenta las imágenes y reporta errores de JavaScript.
+
+## Cómo se publica
+
+La demo vive en **GitHub Pages**: https://jrf2000550-del.github.io/tumomo-v2/
+
+Cada `git push` a `main` dispara `.github/workflows/deploy.yml`, que compila y
+publica automáticamente. No hay que hacer nada más.
+
+Detalles que hicieron falta para que funcione bajo `/tumomo-v2/`:
+
+- `VITE_BASE=/tumomo-v2/` en el workflow. **No usar `--base=` desde Git Bash en
+  Windows:** traduce la ruta a `/Program Files/Git/...` y rompe los assets.
+- El router toma su `basename` de `import.meta.env.BASE_URL`.
+- `public/404.html` guarda la ruta y redirige a la raíz; `index.html` la
+  restaura antes de montar React. Sin esto, entrar directo a `/buscar` no
+  funcionaba.
+
+> GitHub Pages responde con estado HTTP 404 al entrar directo a una ruta
+> profunda, antes de servir `404.html`. Es inevitable en Pages y no afecta al
+> visitante: la página carga bien y la URL queda correcta. Solo se nota en la
+> consola del navegador. Vercel no tiene esta limitación.
+
+Para comprobar el sitio publicado:
+
+```bash
+node verificar-online.mjs https://jrf2000550-del.github.io/tumomo-v2
+node probar-pages.mjs   # simula Pages en local antes de subir
+```
